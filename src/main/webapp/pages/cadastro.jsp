@@ -6,6 +6,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cadastro</title>
+  <link rel="shortcut icon" href="../assets/img/bGestio.png" type="image/png">
   <style>
     body {
       margin: 0;
@@ -13,6 +14,13 @@
       font-family: Arial, sans-serif;
       background-color: #b4c5e433;
     }
+    
+    :root {
+	        --cor001: #b4c5e4;
+	        --hcor001: #94A8CE;
+	        --cor002: #C1121F;
+	        --hrcor002: rgb(193, 18, 31, 50%);
+	   }
 
     .container {
       display: flex;

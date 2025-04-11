@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Criar Carteira</title>
+  <link rel="shortcut icon" href="../assets/img/bGestio.png" type="image/png">
   <style>
     body {
       margin: 0;
@@ -13,6 +14,12 @@
       font-family: Arial, sans-serif;
       background-color: #b7c5e5;
     }
+    :root {
+	        --cor001: #b4c5e4;
+	        --hcor001: #94A8CE;
+	        --cor002: #C1121F;
+	        --hrcor002: rgb(193, 18, 31, 50%);
+	   }
     .container {
       display: flex;
       align-items: center;
@@ -23,7 +30,6 @@
       background-color: white;
       padding: 40px;
       width: 400px;
-      border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       text-align: center;
     }
@@ -41,7 +47,6 @@
       padding: 10px;
       margin-bottom: 12px;
       border: 1px solid #b7c5e5;
-      border-radius: 4px;
       box-sizing: border-box;
     }
     .button-group {
@@ -57,12 +62,23 @@
       color: white;
       font-weight: bold;
       border: none;
-      border-radius: 4px;
       cursor: pointer;
+      transition: all .2s ease;
     }
     button:hover {
       background-color: #a4b8db;
     }
+    
+    .cancelar {
+    	border: 1px solid var(--cor002);
+    	background-color: white;
+    	color: var(--cor002);
+    }
+    .cancelar:hover {
+    	background-color:var(--cor002);
+    	color: white;
+    }
+    
     small {
       display: block;
       font-size: 10px;
@@ -83,7 +99,7 @@
 
       <div class="button-group">
         <button type="submit">Criar</button>
-        <button type="button" onclick="window.history.back();">Cancelar</button>
+        <button class="cancelar" type="button" onclick="window.history.back();">Cancelar</button>
       </div>
 
       <small>

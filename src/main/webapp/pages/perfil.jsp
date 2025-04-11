@@ -17,6 +17,7 @@
 <head>
     <meta charset="UTF-8" />
     <title>Perfil - Gestio</title>
+    <link rel="shortcut icon" href="../assets/img/bGestio.png" type="image/png">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,7 +35,7 @@
 
         header {
             background-color: var(--cor001);
-            color: white;
+            color: black;
             padding: 1rem 2rem;
             display: flex;
             align-items: center;

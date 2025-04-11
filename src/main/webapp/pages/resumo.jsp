@@ -14,6 +14,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestio</title>
+    <link rel="shortcut icon" href="../assets/img/bGestio.png" type="image/png">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -39,8 +40,13 @@
       }
 
       :root {
-        --cor001: #b4c5e4;
-      }
+	        --cor001: #b4c5e4;
+	        --hcor001: #94A8CE;
+	        --cor002: #C1121F;
+	        --hrcor002: rgb(193, 18, 31, 50%);
+	   }
+      
+      @charset "UTF-8";
 
 /* Header */
 
@@ -60,13 +66,18 @@
         gap: 16px;
       }
 
-      .header img {
+      header #imgPerfil {
         height: 40px;
         width: 40px;
         background-color: white;
         border-radius: 50%;
         cursor: pointer;
-      }
+		}
+		
+		.header #logo {
+			height: 40px;
+			width: 40px;
+		}
 
       .header nav button {
         width: 46px;
@@ -343,7 +354,7 @@
   <body>
     <header class="header">
       <div>
-        <img src="" alt="Logo" />
+        <img id="logo" src="../assets/img/bGestio.png" alt="Logo" />
         <h1>Gestio</h1>
       </div>
       <nav>

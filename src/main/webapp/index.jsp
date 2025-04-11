@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestio</title>
   <link rel="stylesheet" href="<%= request.getContextPath() %>/index.css" type="text/css">
+  <link rel="shortcut icon" href="assets/img/bGestio.png" type="image/png">
   <style>
   	  * {
         margin: 0;
@@ -25,8 +26,11 @@
       }
 
       :root {
-        --cor001: #b4c5e4;
-      }
+	        --cor001: #b4c5e4;
+	        --hcor001: #94A8CE;
+	        --cor002: #C1121F;
+	        --hrcor002: rgb(193, 18, 31, 50%);
+	   }
   
     .header {
       height: 60px;
@@ -46,8 +50,6 @@
     .header div img {
       height: 40px;
       width: 40px;
-      background-color: white;
-      border-radius: 50%;
     }
 
     .header nav {
@@ -216,7 +218,7 @@
 <body>
   <header class="header">
     <div>
-      <img src="" alt="Logo" />
+      <img id="logo" src="assets/img/bGestio.png" alt="Logo" />
       <h1>Gestio</h1>
     </div>
     <nav>
