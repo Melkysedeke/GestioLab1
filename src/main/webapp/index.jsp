@@ -3,179 +3,281 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestio</title>
-    <style>
-    	/* Resetzinho de leve */
-		* {
-		    margin: 0;
-		    padding: 0;
-		    box-sizing: border-box;
-		}
-		
-		body {
-		    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		    background-color: #f9f9f9;
-		    color: #333;
-		    line-height: 1.6;
-		    min-height: 100vh;
-		}
-		
-		/* Header */
-		header {
-		    background-color: #a4b8db;
-		    color: white;
-		    padding: 1rem 2rem;
-		    display: flex;
-		    justify-content: space-between;
-		    align-items: center;
-		    flex-wrap: wrap;
-		}
-		
-		header div {
-	        display: flex;
-	        justify-content: center;
-	        align-items: center;
-	      }
-		
-		header h1 {
-		    margin-left: 1rem;
-		    font-size: 2rem;
-		}
-		
-		header img {
-		    width: 40px;
-		    height: 40px;
-		}
-		
-		header form {
-		    display: inline-block;
-		    margin-left: 10px;
-		}
-		
-		header button {
-		    padding: 8px 16px;
-		    background-color: white;
-		    color: #a4b8db;
-		    border: none;
-		    border-radius: 5px;
-		    font-weight: bold;
-		    cursor: pointer;
-		    transition: 0.3s;
-		}
-		
-		header button:hover {
-		    background-color: #cce4f6;
-		}
-		
-		/* Navegação */
-		nav {
-		    background-color: #a4b8db;
-		    padding: 0.5rem 1rem;
-		}
-		
-		 nav ul {
-	        list-style: none;
-	        display: flex;
-	        justify-content: center;
-	        flex-wrap: wrap;
-	      }
-		
-		nav ul li a {
-	        color: white;
-	        text-decoration: none;
-	        padding: 0.5rem 14px;
-	        transition: background 0.3s;
-	      }
-		
-		nav ul li a:hover {
-	        border-bottom: 4px solid white;
-	      }
-		
-		/* Main */
-		main {
-		    padding: 2rem;
-		}
-		
-		section {
-		    background-color: white;
-		    padding: 2rem;
-		    margin-bottom: 2rem;
-		    border-radius: 10px;
-		    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-		}
-		
-		h2 {
-		    margin-bottom: 1rem;
-		    color: #1565c0;
-		}
-		
-		p {
-		    color: #555;
-		}
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestio</title>
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/index.css" type="text/css">
+  <style>
+  	  * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      html,
+      body {
+        height: 100vh;
+      }
+
+      main {
+        height: calc(100% - 60px);
+      }
+
+      :root {
+        --cor001: #b4c5e4;
+      }
+  
+    .header {
+      height: 60px;
+      background-color: var(--cor001);
+      padding: 0 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header div {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header div img {
+      height: 40px;
+      width: 40px;
+      background-color: white;
+      border-radius: 50%;
+    }
+
+    .header nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    .header nav button {
+      border: none;
+      width: 81px;
+      height: 32px;
+      background-color: white;
+      color: #000;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    .header nav button:hover {
+      background-color: #d3d3d3;
+      cursor: pointer;
+    }
+
+    .main {
+      padding: 20px 32px;
+    }
+
+    .painel {
+      max-width: 1216px;
+      background-color: var(--cor001);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .painel-texto {
+      margin-left: 55px;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .painel-texto h2 {
+      font-size: 36px;
+      width: 100%;
+    }
+
+    .painel-texto p {
+      margin: 14px 0;
+      font-size: 20px;
+      width: 100%;
+    }
+
+    .painel-texto button {
+      border: none;
+      width: 237px;
+      height: 52px;
+      font-size: 20px;
+      font-weight: bold;
+      background-color: white;
+      color: #000;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .painel-texto button:hover {
+      background-color: #ddd;
+    }
+
+    .painel img {
+      max-width: 500px;
+      width: 100%;
+      flex: 1;
+      object-fit: contain;
+    }
+
+    .info {
+      max-width: 1216px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .info > h2 {
+      font-weight: 400;
+      font-size: 24px;
+    }
+
+    .info > h2 > span {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .card {
+      background-color: var(--cor001);
+      padding: 16px;
+      text-align: left;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      min-height: 120px;
+    }
+
+    .card .headerCard {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 20px;
+    }
+
+    .card small {
+      font-size: 14px;
+    }
+
+    .card .headerCard div {
+      font-weight: bold;
+      background-color: white;
+      height: 30px;
+      width: 30px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #333;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background-color: #f5f5f5;
+      font-size: 14px;
+      color: #555;
+      margin-top: 32px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .painel {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .painel img {
+        margin: 0 auto;
+      }
+
+      .painel-texto {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div>
-            <img src="" alt="Logo">
-            <h1>Gestio</h1>
-        </div>
-        <div>
-            <form action="pages/login.jsp" method="get" style="display: inline;">
-                <button type="submit">Entrar</button>
-            </form>
-            <form action="pages/cadastro.jsp" method="get" style="display: inline;">
-                <button type="submit">Cadastrar</button>
-            </form>
-        </div>
-    </header>
-    
+  <header class="header">
+    <div>
+      <img src="" alt="Logo" />
+      <h1>Gestio</h1>
+    </div>
     <nav>
-        <ul>
-            <li><a href="#" onclick="mostrarSecao('dashboard')">Dashboard</a></li>
-            <li><a href="#" onclick="mostrarSecao('transacoes')">Transações</a></li>
-            <li><a href="#" onclick="mostrarSecao('dividas')">Dívidas e Empréstimos</a></li>
-            <li><a href="#" onclick="mostrarSecao('investimentos')">Investimentos</a></li>
-            <li><a href="#" onclick="mostrarSecao('metas')">Metas</a></li>
-            <li><a href="#" onclick="mostrarSecao('suporte')">Suporte com IA</a></li>
-        </ul>
+      <form action="pages/login.jsp" method="get" style="display: inline;">
+        <button type="submit">Entrar</button>
+      </form>
+      <form action="pages/cadastro.jsp" method="get" style="display: inline;">
+        <button type="submit">Cadastrar</button>
+      </form>
     </nav>
+  </header>
 
-    <main>
-        <section id="dashboard" style="display: block;">
-            <h2>Visão Geral</h2>
-            <p>Aqui será exibido um resumo das receitas e custos, além de relatórios financeiros.</p>
-        </section>
-        <section id="transacoes" style="display: none;">
-            <h2>Transações</h2>
-            <p>Área para submissão de receitas e despesas com categorização.</p>
-        </section>
-        <section id="dividas" style="display: none;">
-            <h2>Dívidas e Empréstimos</h2>
-            <p>Gerenciamento de dívidas e empréstimos, com prazos e valores.</p>
-        </section>
-        <section id="investimentos" style="display: none;">
-            <h2>Investimentos</h2>
-            <p>Gestão de investimentos com informações detalhadas.</p>
-        </section>
-        <section id="metas" style="display: none;">
-            <h2>Metas</h2>
-            <p>Definição de objetivos financeiros e prazos para cumprimento.</p>
-        </section>
-        <section id="suporte" style="display: none;">
-            <h2>Suporte com IA</h2>
-            <p>Insights financeiros personalizados com base no seu perfil.</p>
-        </section>
-    </main>
+  <main class="main">
+    <section class="painel">
+      <div class="painel-texto">
+        <h2>Controle Total das Suas Finanças</h2>
+        <p>Planeje seus gastos, economize melhor e atinja seus objetivos financeiros com facilidade.</p>
+        <form action="pages/cadastro.jsp" method="get">
+          <button type="submit">Comece agora</button>
+        </form>
+      </div>
+      <img src="assets/img/dashboardImg.png" alt="dashboard" />
+    </section>
 
-    <script>
-        function mostrarSecao(id) {
-            const secoes = document.querySelectorAll("main section");
-            secoes.forEach(sec => sec.style.display = "none");
-            document.getElementById(id).style.display = "block";
-        }
-    </script>
+    <section class="info">
+      <h2>E como o <span>Gestio</span> irá lhe auxiliar?</h2>
+      <div class="cards-container">
+        <div class="card">
+          <div class="headerCard">
+            <div>1</div>
+            <h3>G<small>estão de Transações</small></h3>
+          </div>
+          <p>Registre e categorize suas entradas e saídas com facilidade.</p>
+        </div>
+        <div class="card">
+          <div class="headerCard">
+            <div>2</div>
+            <h3>D<small>ívidas e Empréstimos</small></h3>
+          </div>
+          <p>Monitore suas dívidas e planeje seus pagamentos.</p>
+        </div>
+        <div class="card">
+          <div class="headerCard">
+            <div>3</div> 
+            <h3>I<small>nvestimentos e Metas</small></h3>
+          </div>
+          <p>Acompanhe seus investimentos e defina metas para conquistar seus sonhos.</p>
+        </div>
+        <div class="card">
+          <div class="headerCard">
+            <div>4</div>
+            <h3>S<small>uporte com IA</small></h3>
+          </div>
+          <p>Receba insights personalizados e dicas para otimizar seus gastos.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Gestio — Seu controle financeiro em boas mãos.</p>
+  </footer>
 </body>
 </html>
