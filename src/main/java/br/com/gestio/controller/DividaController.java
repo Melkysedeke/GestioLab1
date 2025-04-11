@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +45,7 @@ public class DividaController extends HttpServlet {
                     return;
                 }
                 default:
-                	throw new ServletException("Ação GET não reconhecida: " + acao);
+                    throw new ServletException("Ação GET não reconhecida: " + acao);
             }
 
         } catch (Exception e) {
@@ -67,12 +68,12 @@ public class DividaController extends HttpServlet {
                     String descricao = request.getParameter("descricao");
                     double valor = Double.parseDouble(request.getParameter("valor"));
 
-                    Date dataCriacao = new Date(); // Pega data atual
+                    Date dataCriacao = new Date();
                     String dataVencStr = request.getParameter("dataVencimento");
                     String dataQuitStr = request.getParameter("dataQuitacao");
 
-                    Date dataVencimento = (dataVencStr != null && !dataVencStr.isEmpty()) ? sdf.parse(dataVencStr) : null;
-                    Date dataQuitacao = (dataQuitStr != null && !dataQuitStr.isEmpty()) ? sdf.parse(dataQuitStr) : null;
+                    Date dataVencimento = parseDateOrNull(dataVencStr);
+                    Date dataQuitacao = parseDateOrNull(dataQuitStr);
 
                     String status = request.getParameter("status");
 
@@ -105,11 +106,12 @@ public class DividaController extends HttpServlet {
                     String dataVencStr = request.getParameter("dataVencimento");
                     String dataQuitStr = request.getParameter("dataQuitacao");
 
-                    Date dataCriacao = (dataCriacaoStr != null && !dataCriacaoStr.isEmpty()) ? sdf.parse(dataCriacaoStr) : null;
-                    Date dataVencimento = (dataVencStr != null && !dataVencStr.isEmpty()) ? sdf.parse(dataVencStr) : null;
-                    Date dataQuitacao = (dataQuitStr != null && !dataQuitStr.isEmpty()) ? sdf.parse(dataQuitStr) : null;
+                    Date dataCriacao = parseDateOrNull(dataCriacaoStr);
+                    Date dataVencimento = parseDateOrNull(dataVencStr);
+                    Date dataQuitacao = parseDateOrNull(dataQuitStr);
 
                     String status = request.getParameter("status");
+                    System.out.println("Status recebido: " + status);
 
                     HttpSession sessao = request.getSession();
                     int idCarteira = ((br.com.gestio.model.Carteira) sessao.getAttribute("carteiraSessao")).getIdCarteira();
@@ -123,19 +125,23 @@ public class DividaController extends HttpServlet {
                     dividaAtualizada.setDataVencimento(dataVencimento);
                     dividaAtualizada.setDataQuitacao(dataQuitacao);
                     dividaAtualizada.setStatus(status);
-                    dividaAtualizada.setIdCarteira(idCarteira); // 💥 aqui é a chave da paz
+                    dividaAtualizada.setIdCarteira(idCarteira);
 
                     dividaDAO.atualizar(dividaAtualizada);
 
                     response.sendRedirect(request.getContextPath() + "/DividaController?acao=prepararPagina");
                     return;
                 }
+
                 default:
-                	throw new ServletException("Ação POST não reconhecida: " + acao);
+                    throw new ServletException("Ação POST não reconhecida: " + acao);
             }
 
         } catch (Exception e) {
             throw new ServletException(e);
         }
+    }
+    private Date parseDateOrNull(String dateStr) throws ParseException {
+        return (dateStr != null && !dateStr.isEmpty()) ? sdf.parse(dateStr) : null;
     }
 }

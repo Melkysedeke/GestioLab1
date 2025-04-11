@@ -41,8 +41,6 @@
       :root {
         --cor001: #b4c5e4;
       }
-      
-      @charset "UTF-8";
 
 /* Header */
 

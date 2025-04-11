@@ -46,8 +46,11 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
       }
 
       :root {
-        --cor001: #b4c5e4;
-      }
+	        --cor001: #b4c5e4;
+	        --hcor001: #94A8CE;
+	        --cor002: #C1121F;
+	        --hrcor002: rgb(193, 18, 31, 50%);
+	   }
       
       /* Header */
 
@@ -325,6 +328,7 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
         align-items: center;
         cursor: pointer;
         font-size: 12px;
+        transition: all .2s ease;
       }
 
       .btn-nova:hover {
@@ -354,7 +358,7 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
         pointer-events: none;
       }
 
-      .conteudo {
+      .conteudo > p {
         font-size: 30px;
         color: #000000;
         text-align: center;
@@ -375,32 +379,45 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
 		  justify-content: space-between;
 		  align-items: center;
 		  border: 1px solid #ccc;
-		  padding: 1rem;
+		  padding: 14px 20px;
 		  box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
 		  background-color: #fff;
+		  height: 100px;
 		}
 		
 		.info-principal {
 		  flex: 2;
+		  text-align: left;
+		  height: 100%;
 		}
 		
 		.titulo-objetivo {
 		  margin: 0;
-		  font-size: 1.2rem;
-		  font-weight: 600;
+		  font-size: 16px;
+		  font-weight: bold;
 		}
 		
 		.descricao-objetivo {
-		  font-size: 0.95rem;
-		  color: #666;
-		  margin-top: 0.2rem;
+		  font-size: 10px;
+		  color: #757575;
+		  font-weight: normal;
+		  margin-top: 8px;
 		}
 		
-		.info-datas,
-		.info-valores {
+		.info-datas {
 		  flex: 1;
 		  text-align: center;
-		  font-size: 0.9rem;
+		  font-size: 10px;
+		}
+		
+		.info-valores {
+			flex:2;
+			text-align: left;
+		  	font-size: 20px;
+		}
+		
+		.info-valores strong {
+			font-size: 24px;
 		}
 		
 		.info-datas p,
@@ -411,25 +428,45 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
 		.acoes-objetivo {
 		  display: flex;
 		  flex-direction: column;
-		  gap: 0.5rem;
+		  gap: 12px;
+		  flex: 1px;
 		}
 		
 		.botao-editar {
-		  background-color: #aac4ff;
+		  background-color: var(--cor001);
 		  border: none;
-		  padding: 0.5rem 1rem;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  height: 30px;
 		  font-weight: bold;
+		  font-size: 20px;
 		  cursor: pointer;
-		  border-radius: 5px;
+		  color: white;
+		  transition: all .2s ease;
+		}
+		
+		.botao-editar:hover {
+			background-color: var(--hcor001);
 		}
 		
 		.botao-excluir {
-		  background-color: #f8f8f8;
-		  border: 1px solid #ccc;
-		  padding: 0.5rem 1rem;
-		  font-weight: normal;
+			width: 100%;
+		  background-color: white;
+		  border: 1px solid #858585;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  height: 30px;
+		  font-weight: bold;
+		  font-size: 20px;
 		  cursor: pointer;
-		  border-radius: 5px;
+		  color: #858585;
+		  transition: all .2s ease;
+		}
+		
+		form .botao-excluir:hover {
+			background-color: lightgray;
 		}
       
       /* Modal Overlay */
@@ -582,7 +619,7 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
         <img src="" id="imgPerfil" alt="Logo" />
       </nav>
       <div id="menu">
-        <form action="perfil.jsp"><button>Meu Perfil</button></form>
+        <form action="pages/perfil.jsp"><button>Meu Perfil</button></form>
         <form action=""><button>Configurações</button></form>
         <form action=""><button>Tema Claro/Escuro</button></form>
         <form action=""><button>Ia Assistente</button></form>
@@ -956,7 +993,7 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
                     window.location.href = "<%= request.getContextPath() %>/ObjetivoController?acao=prepararPagina";
                     break;
                 case "ia":
-                  window.location.href = "assistente.jsp";
+                  window.location.href = "pages/assistente.jsp";
                   break;
                 default:
                   console.warn("Aba não mapeada: " + this.id);

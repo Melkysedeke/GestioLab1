@@ -19,8 +19,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestio</title>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/abasPrincipais.css" type="text/css">
-    <link rel="stylesheet" href="../assets/css/emConstrucao.css" type="text/css">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -325,6 +323,7 @@
         align-items: center;
         cursor: pointer;
         font-size: 12px;
+        transition: all .2s ease;
       }
 
       .btn-nova:hover {
@@ -360,7 +359,7 @@
         text-align: center;
       }
       
-      .nenhuma-movimentacao {
+      .nenhuma-divida {
       	margin: 10px 0;
       }
       
@@ -543,7 +542,7 @@
         <img src="" id="imgPerfil" alt="Logo" />
       </nav>
       <div id="menu">
-        <form action="perfil.jsp"><button>Meu Perfil</button></form>
+        <form action="pages/perfil.jsp"><button>Meu Perfil</button></form>
         <form action=""><button>Configurações</button></form>
         <form action=""><button>Tema Claro/Escuro</button></form>
         <form action=""><button>Ia Assistente</button></form>
@@ -624,7 +623,7 @@
 		  <!-- Modal de criação de Dívida -->
 		<div id="modalDivida" class="modal-overlay" style="display: none;">
 		  <div class="modal-content">
-		    <form action="<%= request.getContextPath() %>/DividaController" method="post" class="form-movimentacao">
+		    <form action="<%= request.getContextPath() %>/DividaController" method="post" class="form-divida">
 		      <input type="hidden" name="acao" value="criar">
 		
 		      <h2 class="titulo-form">Adicionar Dívida ou Empréstimo</h2>
@@ -673,7 +672,7 @@
 		 <!-- Modal de edição de Dívida -->
 		<div id="modalEditarDivida" class="modal-overlay" style="display: none">
 		  <div class="modal-content">
-		    <form action="<%= request.getContextPath() %>/DividaController" method="post" class="form-movimentacao">
+		    <form action="<%= request.getContextPath() %>/DividaController" method="post" class="form-divida">
 		      <input type="hidden" name="acao" value="atualizar" />
 		      <input type="hidden" name="idDivida" id="editarIdDivida" />
 		
@@ -707,9 +706,9 @@
 		
 		      <label for="editarStatus" class="label-input">Status</label>
 		      <select name="status" id="editarStatus" class="input-texto">
-		        <option value="pendente">Pendente</option>
-		        <option value="pago">Pago</option>
-		      </select>
+				  <option value="pendente">Pendente</option>
+				  <option value="pago">Pago</option>
+				</select>
 		
 		      <label for="editarValorDivida" class="label-input">Valor</label>
 		      <input type="number" step="0.01" name="valor" id="editarValorDivida" class="input-texto" placeholder="R$ 00,00" />
@@ -743,7 +742,11 @@
 		            <td><%= d.getDescricao() %></td>
 		            <td>R$ <%= String.format("%.2f", d.getValor()) %></td>
 		            <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(d.getDataCriacao()) %></td>
-		            <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(d.getDataVencimento()) %></td>
+		            <td>
+					  <%= d.getDataVencimento() != null 
+					        ? new java.text.SimpleDateFormat("dd/MM/yyyy").format(d.getDataVencimento()) 
+					        : "Não informado" %>
+					</td>
 		            <td><%= d.getStatus() %></td>
 		            <td>
 		              <button type="button" onclick="abrirModalEditarDivida(
@@ -752,7 +755,7 @@
 		                '<%= d.getDescricao().replace("'", "\\'") %>',
 		                <%= d.getValor() %>,
 		                '<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(d.getDataCriacao()) %>',
-		                '<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(d.getDataVencimento()) %>',
+		                '<%= d.getDataVencimento() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(d.getDataVencimento()) : "" %>',
 		                '<%= d.getStatus() %>')">✏️ Editar</button>
 		
 		              <form action="<%= request.getContextPath() %>/DividaController" method="get" style="display:inline;">
@@ -766,7 +769,7 @@
 		      </tbody>
 		    </table>
 		  <% } else { %>
-		    <p class="nenhuma-movimentacao">Não há dívidas cadastradas</p>
+		    <p class="nenhuma-divida">Não há dívidas ou empréstimos</p>
 		  <% } %>
 		</div>
 		</section>
@@ -884,7 +887,7 @@
                     window.location.href = "<%= request.getContextPath() %>/ObjetivoController?acao=prepararPagina";
                     break;
                 case "ia":
-                  window.location.href = "assistente.jsp";
+                  window.location.href = "pages/assistente.jsp";
                   break;
                 default:
                   console.warn("Aba não mapeada: " + this.id);
@@ -899,31 +902,48 @@
 	    document.getElementById('modalDivida').style.display = 'flex';
 	  }
 	
-	  function fecharModalMovimentacao() {
+	  function fecharModalDivida() {
 	    document.getElementById('modalDivida').style.display = 'none';
 	  }
 	  
-	  function abrirModalEditarDivida(id, tipo, descricao, valor, dataCriacao, dataVencimento, dataQuitacao, status) {
-		  document.getElementById('editarIdDivida').value = id;
+	  function abrirModalEditarDivida(id, tipo, descricao, valor, dataCriacao, dataVencimento, status) {
+		  console.log("status recebido:", status, "tipo:", typeof status, "tamanho:", status.length);
 
-		  const radios = document.getElementsByName("tipo");
-		  radios.forEach(radio => {
-		    radio.checked = (radio.value === tipo);
-		  });
-		  document.getElementById('editarDescricaoDivida').value = descricao;
-		  document.getElementById('editarValorDivida').value = valor;
-		  document.getElementById('editarDataCriacao').value = dataCriacao;
-		  document.getElementById('editarDataVencimento').value = dataVencimento;
-		  document.getElementById('editarDataQuitacao').value = dataQuitacao || '';
-		  document.getElementById('editarStatus').value = status;
-		  document.getElementById('modalEditarDivida').style.display = 'flex';
+		  document.getElementById("editarIdDivida").value = id;
+		  
+		  // Marcar o tipo selecionado (Dívida ou Empréstimo)
+		  if (tipo === "Dívida") {
+		    document.getElementById("editarDivida").checked = true;
+		  } else {
+		    document.getElementById("editarEmprestimo").checked = true;
+		  }
+
+		  document.getElementById("editarDescricaoDivida").value = descricao;
+		  document.getElementById("editarValorDivida").value = valor;
+		  document.getElementById("editarDataCriacao").value = dataCriacao;
+		  document.getElementById("editarDataVencimento").value = dataVencimento || "";
+
+		  setTimeout(() => {
+		    const selectStatus = document.getElementById("editarStatus");
+		    if (selectStatus) {
+		      const valorStatus = status ? status.toLowerCase().trim() : "";
+		      console.log("Status final aplicado ao select:", valorStatus);
+		      selectStatus.value = valorStatus;
+		      const optionExists = Array.from(selectStatus.options).some(opt => opt.value === valorStatus);
+		      if (!optionExists) {
+		        console.warn("Valor de status não corresponde a nenhuma opção do select!");
+		      }
+		    } else {
+		      console.error("Elemento editarStatus ainda não está no DOM!");
+		    }
+		  }, 200);
+		  document.getElementById('modalEditarDivida').style.display = 'flex'; 
 		}
 
 		function fecharModalEditarDivida() {
 		  document.getElementById('modalEditarDivida').style.display = 'none';
 		}
 
-	
 	  // Fecha os modais se clicar fora deles
 	  window.onclick = function(event) {
 	    const modalCriar = document.getElementById('modalDivida');

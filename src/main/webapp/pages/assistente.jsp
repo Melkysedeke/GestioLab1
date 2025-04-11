@@ -39,8 +39,11 @@
       }
 
       :root {
-        --cor001: #b4c5e4;
-      }
+	        --cor001: #b4c5e4;
+	        --hcor001: #94A8CE;
+	        --cor002: #C1121F;
+	        --hrcor002: rgb(193, 18, 31, 50%);
+	}
       
       @charset "UTF-8";
 

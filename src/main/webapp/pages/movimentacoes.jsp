@@ -325,6 +325,7 @@
         align-items: center;
         cursor: pointer;
         font-size: 12px;
+        transition: all .2s ease;
       }
 
       .btn-nova:hover {
@@ -543,7 +544,7 @@
         <img src="" id="imgPerfil" alt="Logo" />
       </nav>
       <div id="menu">
-        <form action="perfil.jsp"><button>Meu Perfil</button></form>
+        <form action="pages/perfil.jsp"><button>Meu Perfil</button></form>
         <form action=""><button>Configurações</button></form>
         <form action=""><button>Tema Claro/Escuro</button></form>
         <form action=""><button>Ia Assistente</button></form>
@@ -898,7 +899,7 @@
                     window.location.href = "<%= request.getContextPath() %>/ObjetivoController?acao=prepararPagina";
                     break;
                 case "ia":
-                  window.location.href = "assistente.jsp";
+                  window.location.href = "pages/assistente.jsp";
                   break;
                 default:
                   console.warn("Aba não mapeada: " + this.id);
