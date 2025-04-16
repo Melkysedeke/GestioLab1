@@ -1,6 +1,10 @@
 package br.com.gestio.DAO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import br.com.gestio.model.Usuario;
 
 public class UsuarioDAO {

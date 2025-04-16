@@ -54,7 +54,7 @@ public class CarteiraController extends HttpServlet {
                     }
 
                     recarregarSessaoCarteiras(sessao, carteiraDAO, usuario.getCpf());
-                    response.sendRedirect("pages/resumo.jsp");
+                    response.sendRedirect(request.getContextPath() + "/ResumoController");
                     break;
                 }
 
@@ -72,7 +72,7 @@ public class CarteiraController extends HttpServlet {
                     carteiraDAO.editarCarteira(idCarteira, novoNome.trim());
 
                     recarregarSessaoCarteiras(sessao, carteiraDAO, usuario.getCpf());
-                    response.sendRedirect("pages/resumo.jsp");
+                    response.sendRedirect(request.getContextPath() + "/ResumoController");
                     break;
                 }
 
@@ -85,10 +85,15 @@ public class CarteiraController extends HttpServlet {
 
                     int idCarteira = Integer.parseInt(idCarteiraStr);
                     carteiraDAO.atualizarUltimaCarteira(usuario.getCpf(), idCarteira);
+                    Carteira novaCarteira = carteiraDAO.buscarPorId(idCarteira);
+                    System.out.println("Carteira selecionada corretamente: " + novaCarteira.getIdCarteira());
+                    sessao.setAttribute("carteiraSessao", novaCarteira);
                     recarregarSessaoCarteiras(sessao, carteiraDAO, usuario.getCpf());
-                    response.sendRedirect("pages/resumo.jsp");
+
+                    response.sendRedirect(request.getContextPath() + "/ResumoController");
                     break;
                 }
+
 
                 case "deletar": {
                     String idCarteiraStr = request.getParameter("idCarteira");
@@ -106,11 +111,11 @@ public class CarteiraController extends HttpServlet {
                         Carteira novaCarteira = carteirasRestantes.get(0);
                         carteiraDAO.atualizarUltimaCarteira(usuario.getCpf(), novaCarteira.getIdCarteira());
                     } else {
-                        carteiraDAO.atualizarUltimaCarteira(usuario.getCpf(), 0); // nenhuma
+                        carteiraDAO.atualizarUltimaCarteira(usuario.getCpf(), 0);
                     }
 
                     recarregarSessaoCarteiras(sessao, carteiraDAO, usuario.getCpf());
-                    response.sendRedirect("pages/resumo.jsp");
+                    response.sendRedirect(request.getContextPath() + "/ResumoController");
                     break;
                 }
 

@@ -27,75 +27,31 @@ public class Divida {
         this.idCarteira = idCarteira;
     }
 
-    public int getIdDivida() {
-        return idDivida;
-    }
+    public int getIdDivida() { return idDivida; }
+    public void setIdDivida(int idDivida) { this.idDivida = idDivida; }
 
-    public void setIdDivida(int idDivida) {
-        this.idDivida = idDivida;
-    }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public String getTipo() {
-        return tipo;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    public double getValor() { return valor; }
+    public void setValor(double valor) { this.valor = valor; }
 
-    public String getDescricao() {
-        return descricao;
-    }
+    public Date getDataCriacao() { return dataCriacao; }
+    public void setDataCriacao(Date dataCriacao) { this.dataCriacao = dataCriacao; }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+    public Date getDataVencimento() { return dataVencimento; }
+    public void setDataVencimento(Date dataVencimento) { this.dataVencimento = dataVencimento; }
 
-    public double getValor() {
-        return valor;
-    }
+    public Date getDataQuitacao() { return dataQuitacao; }
+    public void setDataQuitacao(Date dataQuitacao) { this.dataQuitacao = dataQuitacao; }
 
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public Date getDataCriacao() {
-        return dataCriacao;
-    }
+    public int getIdCarteira() { return idCarteira; }
+    public void setIdCarteira(int idCarteira) { this.idCarteira = idCarteira; }
 
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public Date getDataVencimento() {
-        return dataVencimento;
-    }
-
-    public void setDataVencimento(Date dataVencimento) {
-        this.dataVencimento = dataVencimento;
-    }
-
-    public Date getDataQuitacao() {
-        return dataQuitacao;
-    }
-
-    public void setDataQuitacao(Date dataQuitacao) {
-        this.dataQuitacao = dataQuitacao;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public int getIdCarteira() {
-        return idCarteira;
-    }
-
-    public void setIdCarteira(int idCarteira) {
-        this.idCarteira = idCarteira;
-    }
 }

@@ -1,21 +1,24 @@
 package br.com.gestio.controller;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import br.com.gestio.DAO.CategoriaDAO;
 import br.com.gestio.DAO.MovimentacaoDAO;
 import br.com.gestio.model.Carteira;
 import br.com.gestio.model.Categoria;
 import br.com.gestio.model.Movimentacao;
 import br.com.gestio.util.Conexao;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/MovimentacaoController")
 public class MovimentacaoController extends HttpServlet {
@@ -121,7 +124,7 @@ public class MovimentacaoController extends HttpServlet {
 
             switch (acao) {
                 case "prepararPagina":
-                    List<Categoria> categorias = categoriaDAO.listarPorCpf(carteira.getCpfUsuario());
+                    List<Categoria> categorias = categoriaDAO.listar();
                     List<Movimentacao> movimentacoes = movimentacaoDAO.listarPorCarteira(carteira.getIdCarteira());
 
                     session.setAttribute("categoriasSessao", categorias);

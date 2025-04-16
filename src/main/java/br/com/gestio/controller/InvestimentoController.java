@@ -1,18 +1,21 @@
 package br.com.gestio.controller;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import br.com.gestio.DAO.InvestimentoDAO;
 import br.com.gestio.model.Investimento;
 import br.com.gestio.util.Conexao;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/InvestimentoController")
 public class InvestimentoController extends HttpServlet {
@@ -38,7 +41,7 @@ public class InvestimentoController extends HttpServlet {
 	                String tipo = request.getParameter("tipo");
 	                double valor = Double.parseDouble(request.getParameter("valor"));
 	                int quantidade = Integer.parseInt(request.getParameter("quantidade"));
-	                Date data = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("data"));
+	                Date dataCriacao = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dataCriacao"));
 
 	                String dataVencimentoStr = request.getParameter("dataVencimento");
 	                Date dataVencimento = null;
@@ -47,7 +50,7 @@ public class InvestimentoController extends HttpServlet {
 	                }
 
 	                Investimento investimento = new Investimento(
-	                    0, tipo, valor, quantidade, data, dataVencimento, carteiraSessao.getIdCarteira()
+	                    0, tipo, valor, quantidade, dataCriacao, dataVencimento, carteiraSessao.getIdCarteira()
 	                );
 
 	                dao.inserir(investimento);
@@ -59,7 +62,7 @@ public class InvestimentoController extends HttpServlet {
 	                String tipo = request.getParameter("tipo");
 	                double valor = Double.parseDouble(request.getParameter("valor"));
 	                int quantidade = Integer.parseInt(request.getParameter("quantidade"));
-	                Date data = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("data"));
+	                Date dataCriacao = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("dataCriacao"));
 
 	                String dataVencimentoStr = request.getParameter("dataVencimento");
 	                Date dataVencimento = null;
@@ -68,7 +71,7 @@ public class InvestimentoController extends HttpServlet {
 	                }
 
 	                Investimento investimento = new Investimento(
-	                    idInvestimento, tipo, valor, quantidade, data, dataVencimento, carteiraSessao.getIdCarteira()
+	                    idInvestimento, tipo, valor, quantidade, dataCriacao, dataVencimento, carteiraSessao.getIdCarteira()
 	                );
 
 	                dao.atualizar(investimento);

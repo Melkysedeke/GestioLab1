@@ -1,6 +1,11 @@
 package br.com.gestio.DAO;
 
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,34 +81,6 @@ public class MovimentacaoDAO {
         return lista;
     }
 
-
-    public Movimentacao buscarPorId(int id) throws SQLException {
-        String sql = "SELECT * FROM Movimentacao WHERE idMovimentacao = ?";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Movimentacao mov = new Movimentacao();
-                    mov.setIdMovimentacao(rs.getInt("idMovimentacao"));
-                    mov.setTipo(rs.getString("tipo"));
-                    mov.setDescricao(rs.getString("descricao"));
-                    mov.setValor(rs.getDouble("valor"));
-                    mov.setData(rs.getDate("data"));
-                    mov.setFormaPagamento(rs.getString("formaPagamento"));
-                    mov.setIdCarteira(rs.getInt("idCarteira"));
-                    mov.setIdCategoria(rs.getInt("idCategoria"));
-                    mov.setCriadoEm(rs.getTimestamp("criadoEm"));
-                    mov.setAtualizadoEm(rs.getTimestamp("atualizadoEm"));
-
-                    return mov;
-                }
-            }
-        }
-
-        return null;
-    }
-
-
     public void atualizar(Movimentacao mov) throws SQLException {
         String sql = "UPDATE Movimentacao SET tipo = ?, descricao = ?, valor = ?, data = ?, formaPagamento = ?, idCategoria = ? WHERE idMovimentacao = ?";
 
@@ -119,6 +96,23 @@ public class MovimentacaoDAO {
             stmt.executeUpdate();
         }
     }
+    
+	public int somarPorTipo(int idCarteira, String tipo) {
+	    String sql = "SELECT SUM(valor) AS total FROM Movimentacao WHERE idCarteira = ? AND tipo = ?";
+	    try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+	        stmt.setInt(1, idCarteira);
+	        stmt.setString(2, tipo);
+	
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            BigDecimal total = rs.getBigDecimal("total");
+	            return total != null ? total.intValue() : 0;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return 0;
+	}
 
     public void deletar(int id) throws SQLException {
         String sql = "DELETE FROM Movimentacao WHERE idMovimentacao = ?";

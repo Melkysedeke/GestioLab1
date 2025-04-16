@@ -1,8 +1,15 @@
 package br.com.gestio.DAO;
 
-import java.sql.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import br.com.gestio.model.Objetivo;
 
 public class ObjetivoDAO {
@@ -71,6 +78,28 @@ public class ObjetivoDAO {
             stmt.setInt(7, objetivo.getIdObjetivo());
             stmt.executeUpdate();
         }
+    }
+    
+    public double calcularProgressoTotal(int idCarteira) {
+        String sql = "SELECT SUM(valorAtual) AS totalAtual, SUM(valorObjetivo) AS totalMeta FROM Objetivo WHERE idCarteira = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, idCarteira);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                BigDecimal totalAtual = rs.getBigDecimal("totalAtual");
+                BigDecimal totalMeta = rs.getBigDecimal("totalMeta");
+
+                if (totalMeta != null && totalMeta.compareTo(BigDecimal.ZERO) > 0) {
+                    return totalAtual != null
+                            ? totalAtual.divide(totalMeta, 2, RoundingMode.HALF_UP).doubleValue() * 100
+                            : 0.0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
     }
 
     public void deletar(int id) throws SQLException {

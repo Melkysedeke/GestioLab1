@@ -223,12 +223,18 @@
       /* Sem carteira */
 
       .painel {
-        margin: 20px 32px 0;
+        margin: 20px auto 0;
         padding: 30px 50px;
         text-align: center;
         max-width: 1216px;
         background-color: var(--cor001);
       }
+      
+      @media screen and (max-width: 1280px) {
+		  .painel {
+		    margin: 20px 32px;
+		  }
+		}
 
       .painel p {
         max-width: 880px;
@@ -339,29 +345,6 @@
         background-color: #94a8ce;
       }
 
-      .search-box {
-        position: relative;
-        z-index: 0;
-      }
-
-      .search-box input {
-        padding: 6px 32px 6px 8px;
-        border: 1px solid #858585;
-        border-radius: 2px;
-        font-size: 13px;
-        color: #000;
-      }
-
-      .icone-lupa {
-        position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #757575;
-        font-size: 14px;
-        pointer-events: none;
-      }
-
       .conteudo {
         font-size: 30px;
         color: #000000;
@@ -399,6 +382,35 @@
       .tabela-investimentos tbody td {
       	font-size: 12px;
       	width: auto;
+      }
+      
+      .tabela-investimentos button {
+      	width: 50px;
+    	height: 20px;
+    	cursor: pointer;
+      }
+      
+      .tabela-investimentos .cardEditar {
+      	background-color: var(--cor001);
+      	color: white;
+      	border: none;
+      	transition: all .2s ease;
+      }
+      
+      .tabela-investimentos .cardEditar:hover {
+      	background-color: var(--hcor001);
+      }
+      
+      .tabela-investimentos .cardDeletar {
+      	background-color: white;
+      	border: 1px solid #858585;
+      	color: #858585;
+      	transition: all .2s ease;
+      }
+      
+      .tabela-investimentos .cardDeletar:hover {
+      	background-color: #858585;
+      	color: white;
       }
       
       /* Modal Overlay */
@@ -525,7 +537,8 @@
 		}
 
     .cancelar:hover {
-      background-color: lightgray;
+      background-color: #858585;
+		color: white;
     }
     </style>
   </head>
@@ -552,9 +565,8 @@
       </nav>
       <div id="menu">
         <form action="pages/perfil.jsp"><button>Meu Perfil</button></form>
-        <form action=""><button>Configurações</button></form>
-        <form action=""><button>Tema Claro/Escuro</button></form>
-        <form action=""><button>Ia Assistente</button></form>
+        <form action="pages/perfil.jsp"><button>Configurações</button></form>
+        <form action="pages/assistente.jsp"><button>Ia Assistente</button></form>
         <form action="<%= request.getContextPath() %>/LogoutController">
           <button>Sair</button>
         </form>
@@ -623,10 +635,6 @@
 		      <h2>Meus investimentos</h2>
 		      <button class="btn-nova" onclick="abrirModalInvestimento()">Novo investimento</button>
 		    </div>
-		    <div class="search-box">
-		      <input type="text" placeholder="Pesquisar" />
-		      <span class="icone-lupa">🔍</span>
-		    </div>
 		  </div>
 		
 		  <!-- Modal de criação de Investimento -->
@@ -665,8 +673,8 @@
 		
 		      <div class="linha-dupla">
 		        <div class="campo">
-		          <label for="data" class="label-input">Data do Investimento</label>
-		          <input type="date" name="data" id="data" class="input-texto">
+		          <label for="dataCriacao" class="label-input">Data do Investimento</label>
+		          <input type="date" name="dataCriacao" id="dataCriacao" class="input-texto">
 		        </div>
 		
 		        <div class="campo">
@@ -721,8 +729,8 @@
 		
 		      <div class="linha-dupla">
 		        <div class="campo">
-		          <label for="editarData" class="label-input">Data do Investimento</label>
-		          <input type="date" name="data" id="editarDataInvestimento" class="input-texto" />
+		          <label for="editarDataCriacao" class="label-input">Data do Investimento</label>
+		          <input type="date" name="dataCriacao" id="editarDataCriacao" class="input-texto" />
 		        </div>
 		
 		        <div class="campo">
@@ -759,28 +767,28 @@
 		            <td><%= inv.getTipo() %></td>
 		            <td>R$ <%= String.format("%.2f", inv.getValor()) %></td>
 		            <td><%= inv.getQuantidade() %></td>
-		            <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(inv.getData()) %></td>
+		            <td><%= new java.text.SimpleDateFormat("dd/MM/yyyy").format(inv.getDataCriacao()) %></td>
 		            <td>
 		              <%= inv.getDataVencimento() != null
 		                    ? new java.text.SimpleDateFormat("dd/MM/yyyy").format(inv.getDataVencimento())
 		                    : "-" %>
 		            </td>
 		            <td>
-		              <button type="button" onclick="abrirModalEditarInvestimento({
+		              <button class="cardEditar" type="button" onclick="abrirModalEditarInvestimento({
 		                idInvestimento: <%= inv.getIdInvestimento() %>,
 		                tipo: '<%= inv.getTipo() %>',
 		                valor: <%= inv.getValor() %>,
 		                quantidade: <%= inv.getQuantidade() %>,
-		                data: '<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(inv.getData()) %>',
+		                dataCriacao: '<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(inv.getDataCriacao()) %>',
 		                dataVencimento: <%= inv.getDataVencimento() != null
 		                  ? "'" + new java.text.SimpleDateFormat("yyyy-MM-dd").format(inv.getDataVencimento()) + "'"
 		                  : "null" %>
-		              })">✏️ Editar</button>
+		              })">Editar</button>
 		
 		              <form action="<%= request.getContextPath() %>/InvestimentoController" method="get" style="display:inline;">
 		                <input type="hidden" name="acao" value="deletar" />
 		                <input type="hidden" name="idInvestimento" value="<%= inv.getIdInvestimento() %>" />
-		                <button type="submit" onclick="return confirm('Tem certeza que deseja deletar este investimento?')">🗑️ Deletar</button>
+		                <button class="cardDeletar" type="submit" onclick="return confirm('Tem certeza que deseja deletar este investimento?')">Deletar</button>
 		              </form>
 		            </td>
 		          </tr>
@@ -891,7 +899,7 @@
             if (this.checked) {
               switch (this.id) {
                 case "resumo":
-                  window.location.href = "pages/resumo.jsp";
+                  window.location.href = "<%= request.getContextPath() %>/ResumoController";
                   break;
                 case "movimentacoes":
                   window.location.href = "<%= request.getContextPath() %>/MovimentacaoController?acao=prepararPagina";
@@ -925,7 +933,7 @@
 	    document.getElementById('modalInvestimento').style.display = 'none';
 	  }
 	
-	  function abrirModalEditarInvestimento({ idInvestimento, tipo, valor, quantidade, data, dataVencimento }) {
+	  function abrirModalEditarInvestimento({ idInvestimento, tipo, valor, quantidade, dataCriacao, dataVencimento }) {
 		    document.getElementById('editarIdInvestimento').value = idInvestimento;
 		    const tipoSelect = document.getElementById('editarTipoInvestimento');
 		    if (tipoSelect) {
@@ -933,7 +941,7 @@
 		    }
 		    document.getElementById('editarValorInvestimento').value = valor;
 		    document.getElementById('editarQuantidadeInvestimento').value = quantidade;
-		    document.getElementById('editarDataInvestimento').value = data;
+		    document.getElementById('editarDataCriacao').value = dataCriacao;
 		    if (dataVencimento && document.getElementById('editarDataVencimentoInvestimento')) {
 		        document.getElementById('editarDataVencimentoInvestimento').value = dataVencimento;
 		    }
@@ -941,7 +949,7 @@
 		    document.getElementById('modalEditarInvestimento').style.display = 'flex';
 		}
 
-	  function fecharModalEditar() {
+	  function fecharModalEditarInvestimento() {
 	    document.getElementById('modalEditarInvestimento').style.display = 'none';
 	  }
 	

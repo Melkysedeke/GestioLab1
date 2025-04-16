@@ -5,15 +5,22 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import br.com.gestio.DAO.CarteiraDAO;
+import br.com.gestio.DAO.CategoriaDAO;
+import br.com.gestio.DAO.DividaDAO;
+import br.com.gestio.DAO.InvestimentoDAO;
+import br.com.gestio.DAO.ObjetivoDAO;
+import br.com.gestio.DAO.UsuarioDAO;
+import br.com.gestio.model.Carteira;
+import br.com.gestio.model.Categoria;
+import br.com.gestio.model.Usuario;
+import br.com.gestio.util.Conexao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import br.com.gestio.DAO.*;
-import br.com.gestio.model.*;
-import br.com.gestio.util.Conexao;
 
 @WebServlet("/UsuarioController")
 public class UsuarioController extends HttpServlet {
@@ -33,7 +40,7 @@ public class UsuarioController extends HttpServlet {
                         HttpSession sessao = request.getSession();
                         sessao.setAttribute("usuarioSessao", usuario);
                         carregarSessaoUsuario(sessao, usuario, conexao);
-                        response.sendRedirect("pages/resumo.jsp");
+                        response.sendRedirect(request.getContextPath() + "/ResumoController");
                     } else {
                         HttpSession sessao = request.getSession();
                         sessao.setAttribute("mensagemErro", "E-mail ou senha inválidos.");
@@ -55,7 +62,7 @@ public class UsuarioController extends HttpServlet {
                             HttpSession sessao = request.getSession();
                             sessao.setAttribute("usuarioSessao", usuarioCadastrado);
                             carregarSessaoUsuario(sessao, usuarioCadastrado, conexao);
-                            response.sendRedirect("pages/resumo.jsp");
+                            response.sendRedirect(request.getContextPath() + "/ResumoController");
                         } else {
                             request.setAttribute("msg", "Erro ao autenticar após cadastro.");
                             request.getRequestDispatcher("pages/erro.jsp").forward(request, response);
@@ -120,7 +127,7 @@ public class UsuarioController extends HttpServlet {
         sessao.setAttribute("carteiraSessao", carteiraPrincipal);
 
         CategoriaDAO categoriaDAO = new CategoriaDAO(conexao);
-        List<Categoria> categorias = categoriaDAO.listarPorCpf(usuario.getCpf());
+        List<Categoria> categorias = categoriaDAO.listar();
         sessao.setAttribute("categoriasSessao", categorias);
 
         if (carteiraPrincipal != null) {

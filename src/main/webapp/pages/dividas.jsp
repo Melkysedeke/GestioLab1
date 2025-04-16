@@ -223,12 +223,18 @@
       /* Sem carteira */
 
       .painel {
-        margin: 20px 32px 0;
+        margin: 20px auto 0;
         padding: 30px 50px;
         text-align: center;
         max-width: 1216px;
         background-color: var(--cor001);
       }
+      
+      @media screen and (max-width: 1280px) {
+		  .painel {
+		    margin: 20px 32px;
+		  }
+		}
 
       .painel p {
         max-width: 880px;
@@ -339,29 +345,6 @@
         background-color: #94a8ce;
       }
 
-      .search-box {
-        position: relative;
-        z-index: 0;
-      }
-
-      .search-box input {
-        padding: 6px 32px 6px 8px;
-        border: 1px solid #858585;
-        border-radius: 2px;
-        font-size: 13px;
-        color: #000;
-      }
-
-      .icone-lupa {
-        position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #757575;
-        font-size: 14px;
-        pointer-events: none;
-      }
-
       .conteudo {
         font-size: 30px;
         color: #000000;
@@ -399,6 +382,35 @@
       .tabela-dividas tbody td {
       	font-size: 12px;
       	width: auto;
+      }
+      
+      .tabela-dividas button {
+      	width: 50px;
+    	height: 20px;
+    	cursor: pointer;
+      }
+      
+      .tabela-dividas .cardEditar {
+      	background-color: var(--cor001);
+      	color: white;
+      	border: none;
+      	transition: all .2s ease;
+      }
+      
+      .tabela-dividas .cardEditar:hover {
+      	background-color: var(--hcor001);
+      }
+      
+      .tabela-dividas .cardDeletar {
+      	background-color: white;
+      	border: 1px solid #858585;
+      	color: #858585;
+      	transition: all .2s ease;
+      }
+      
+      .tabela-dividas .cardDeletar:hover {
+      	background-color: #858585;
+      	color: white;
       }
       
       /* Modal Overlay */
@@ -525,7 +537,8 @@
 		}
 
     .cancelar:hover {
-      background-color: lightgray;
+      background-color: #858585;
+		color: white;
     }
     </style>
   </head>
@@ -552,9 +565,8 @@
       </nav>
       <div id="menu">
         <form action="pages/perfil.jsp"><button>Meu Perfil</button></form>
-        <form action=""><button>Configurações</button></form>
-        <form action=""><button>Tema Claro/Escuro</button></form>
-        <form action=""><button>Ia Assistente</button></form>
+        <form action="pages/perfil.jsp"><button>Configurações</button></form>
+        <form action="pages/assistente.jsp"><button>Ia Assistente</button></form>
         <form action="<%= request.getContextPath() %>/LogoutController">
           <button>Sair</button>
         </form>
@@ -622,10 +634,6 @@
 		    <div class="header-topo">
 		      <h2>Minhas Dívidas e empréstimos</h2>
 		      <button class="btn-nova" onclick="abrirModalDivida()">Nova dívida ou empréstimo</button>
-		    </div>
-		    <div class="search-box">
-		      <input type="text" placeholder="Pesquisar" />
-		      <span class="icone-lupa">🔍</span>
 		    </div>
 		  </div>
 		
@@ -758,19 +766,19 @@
 					</td>
 		            <td><%= d.getStatus() %></td>
 		            <td>
-		              <button type="button" onclick="abrirModalEditarDivida(
+		              <button class="cardEditar" type="button" onclick="abrirModalEditarDivida(
 		                <%= d.getIdDivida() %>,
 		                '<%= d.getTipo() %>',
 		                '<%= d.getDescricao().replace("'", "\\'") %>',
 		                <%= d.getValor() %>,
 		                '<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(d.getDataCriacao()) %>',
 		                '<%= d.getDataVencimento() != null ? new java.text.SimpleDateFormat("yyyy-MM-dd").format(d.getDataVencimento()) : "" %>',
-		                '<%= d.getStatus() %>')">✏️ Editar</button>
+		                '<%= d.getStatus() %>')">Editar</button>
 		
 		              <form action="<%= request.getContextPath() %>/DividaController" method="get" style="display:inline;">
 		                <input type="hidden" name="acao" value="deletar" />
 		                <input type="hidden" name="idDivida" value="<%= d.getIdDivida() %>" />
-		                <button type="submit" onclick="return confirm('Tem certeza que deseja deletar esta dívida?')">🗑️ Deletar</button>
+		                <button class="cardDeletar" type="submit" onclick="return confirm('Tem certeza que deseja deletar esta dívida?')">Deletar</button>
 		              </form>
 		            </td>
 		          </tr>

@@ -220,12 +220,18 @@
       /* Sem carteira */
 
       .painel {
-        margin: 20px 32px 0;
+        margin: 20px auto 0;
         padding: 30px 50px;
         text-align: center;
         max-width: 1216px;
         background-color: var(--cor001);
       }
+      
+      @media screen and (max-width: 1280px) {
+		  .painel {
+		    margin: 20px 32px;
+		  }
+		}
 
       .painel p {
         max-width: 880px;
@@ -349,6 +355,10 @@
           transform: translateY(-10px);
         }
       }
+      
+      iframe {
+      	margin: 20px 32px;
+      }
     </style>
   </head>
   <body>
@@ -373,10 +383,9 @@
         <img src="" id="imgPerfil" alt="Logo" />
       </nav>
       <div id="menu">
-        <form action="perfil.jsp"><button>Meu Perfil</button></form>
-        <form action=""><button>Configurações</button></form>
-        <form action=""><button>Tema Claro/Escuro</button></form>
-        <form action=""><button>Ia Assistente</button></form>
+        <form action="pages/perfil.jsp"><button>Meu Perfil</button></form>
+        <form action="pages/perfil.jsp"><button>Configurações</button></form>
+        <form action="pages/assistente.jsp"><button>Ia Assistente</button></form>
         <form action="<%= request.getContextPath() %>/LogoutController">
           <button>Sair</button>
         </form>
@@ -440,18 +449,12 @@
           <label for="ia">Assistente IA</label>
         </aside>
 
-        <div class="em-construcao-container">
-          <div class="em-construcao-box">
-            <div class="emoji">🚧</div>
-            <h1>Em Construção</h1>
-            <p>
-              Estamos trabalhando nessa funcionalidade. Em breve você poderá
-              acessá-la!
-            </p>
-            <div class="loader"></div>
-          </div>
-        </div>
-      </div>
+        <iframe
+		 src="https://udify.app/chatbot/Q6WZK9NV6QNTjhjP"
+		 style="width: 100%; height: calc(100% - 40px);"
+		 frameborder="0"
+		 allow="microphone">
+		</iframe>
       <% } else { %>
       <section class="painel">
         <p>
@@ -544,7 +547,7 @@
             if (this.checked) {
               switch (this.id) {
                 case "resumo":
-                  window.location.href = "resumo.jsp";
+                  window.location.href = "<%= request.getContextPath() %>/ResumoController";
                   break;
                 case "movimentacoes":
                   window.location.href = "<%= request.getContextPath() %>/MovimentacaoController?acao=prepararPagina";

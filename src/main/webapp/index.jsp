@@ -77,6 +77,7 @@
     }
 
     .painel {
+    	margin: auto;
       max-width: 1216px;
       background-color: var(--cor001);
       display: flex;
@@ -190,15 +191,6 @@
       color: #333;
     }
 
-    footer {
-      text-align: center;
-      padding: 24px;
-      background-color: #f5f5f5;
-      font-size: 14px;
-      color: #555;
-      margin-top: 32px;
-    }
-
     @media screen and (max-width: 768px) {
       .painel {
         flex-direction: column;
@@ -277,9 +269,5 @@
       </div>
     </section>
   </main>
-
-  <footer>
-    <p>© 2025 Gestio — Seu controle financeiro em boas mãos.</p>
-  </footer>
 </body>
 </html>

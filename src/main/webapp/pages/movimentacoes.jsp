@@ -223,12 +223,18 @@
       /* Sem carteira */
 
       .painel {
-        margin: 20px 32px 0;
+        margin: 20px auto 0;
         padding: 30px 50px;
         text-align: center;
         max-width: 1216px;
         background-color: var(--cor001);
       }
+      
+      @media screen and (max-width: 1280px) {
+		  .painel {
+		    margin: 20px 32px;
+		  }
+		}
 
       .painel p {
         max-width: 880px;
@@ -339,29 +345,6 @@
         background-color: #94a8ce;
       }
 
-      .search-box {
-        position: relative;
-        z-index: 0;
-      }
-
-      .search-box input {
-        padding: 6px 32px 6px 8px;
-        border: 1px solid #858585;
-        border-radius: 2px;
-        font-size: 13px;
-        color: #000;
-      }
-
-      .icone-lupa {
-        position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #757575;
-        font-size: 14px;
-        pointer-events: none;
-      }
-
       .conteudo {
         font-size: 30px;
         color: #000000;
@@ -399,6 +382,35 @@
       .tabela-movimentacoes tbody td {
       	font-size: 12px;
       	width: auto;
+      }
+      
+      .tabela-movimentacoes button {
+      	width: 50px;
+    	height: 20px;
+    	cursor: pointer;
+      }
+      
+      .tabela-movimentacoes .cardEditar {
+      	background-color: var(--cor001);
+      	color: white;
+      	border: none;
+      	transition: all .2s ease;
+      }
+      
+      .tabela-movimentacoes .cardEditar:hover {
+      	background-color: var(--hcor001);
+      }
+      
+      .tabela-movimentacoes .cardDeletar {
+      	background-color: white;
+      	border: 1px solid #858585;
+      	color: #858585;
+      	transition: all .2s ease;
+      }
+      
+      .tabela-movimentacoes .cardDeletar:hover {
+      	background-color: #858585;
+      	color: white;
       }
       
       /* Modal Overlay */
@@ -518,14 +530,15 @@
       background-color: #94A8CE;
     }
 		
-		.cancelar {
-		  background-color: white;
-		  color: #858585;
-      border:1px solid #858585;
-		}
+	.cancelar {
+		background-color: white;
+		color: #858585;
+      	border:1px solid #858585;
+	}
 
     .cancelar:hover {
-      background-color: lightgray;
+    	background-color: #858585;
+		color: white;
     }
     </style>
   </head>
@@ -552,9 +565,8 @@
       </nav>
       <div id="menu">
         <form action="pages/perfil.jsp"><button>Meu Perfil</button></form>
-        <form action=""><button>Configurações</button></form>
-        <form action=""><button>Tema Claro/Escuro</button></form>
-        <form action=""><button>Ia Assistente</button></form>
+        <form action="pages/perfil.jsp"><button>Configurações</button></form>
+        <form action="pages/assistente.jsp"><button>Ia Assistente</button></form>
         <form action="<%= request.getContextPath() %>/LogoutController">
           <button>Sair</button>
         </form>
@@ -622,10 +634,6 @@
 		    <div class="header-topo">
 		      <h2>Minhas movimentações</h2>
 		      <button class="btn-nova" onclick="abrirModalMovimentacao()">Nova movimentação</button>
-		    </div>
-		    <div class="search-box">
-		      <input type="text" placeholder="Pesquisar" />
-		      <span class="icone-lupa">🔍</span>
 		    </div>
 		  </div>
 		
@@ -768,19 +776,19 @@
 		              <td><%= m.getFormaPagamento() %></td>
 		              <td><%= m.getNomeCategoria() %></td>
 		              <td>
-		                <button type="button" onclick="abrirModalEditar(
+		                <button class="cardEditar" type="button" onclick="abrirModalEditar(
 		                  <%= m.getIdMovimentacao() %>,
 		                  '<%= m.getTipo() %>',
 		                  '<%= m.getDescricao().replace("'", "\\'") %>',
 		                  <%= m.getValor() %>,
 		                  '<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(m.getData()) %>',
 		                  '<%= m.getFormaPagamento() %>',
-		                  <%= m.getIdCategoria() %>)">✏️ Editar</button>
+		                  <%= m.getIdCategoria() %>)">Editar</button>
 		
 		                <form action="<%= request.getContextPath() %>/MovimentacaoController" method="post" style="display:inline;">
 		                  <input type="hidden" name="acao" value="deletar" />
 		                  <input type="hidden" name="idMovimentacao" value="<%= m.getIdMovimentacao() %>" />
-		                  <button type="submit" onclick="return confirm('Tem certeza que deseja deletar esta movimentação?')">🗑️ Deletar</button>
+		                  <button class="cardDeletar" type="submit" onclick="return confirm('Tem certeza que deseja deletar esta movimentação?')">Deletar</button>
 		                </form>
 		              </td>
 		            </tr>
@@ -891,7 +899,7 @@
             if (this.checked) {
               switch (this.id) {
                 case "resumo":
-                  window.location.href = "pages/resumo.jsp";
+                  window.location.href = "<%= request.getContextPath() %>/ResumoController";
                   break;
                 case "movimentacoes":
                   window.location.href = "<%= request.getContextPath() %>/MovimentacaoController?acao=prepararPagina";

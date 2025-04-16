@@ -1,8 +1,14 @@
 package br.com.gestio.DAO;
 
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import br.com.gestio.model.Divida;
 
 public class DividaDAO {
@@ -73,6 +79,22 @@ public class DividaDAO {
             stmt.setInt(9, divida.getIdDivida());
             stmt.executeUpdate();
         }
+    }
+    
+    public double somarDividas(int idCarteira) {
+        String sql = "SELECT SUM(valor) AS total FROM Divida WHERE idCarteira = ? AND status = 'pendente'";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, idCarteira);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                BigDecimal total = rs.getBigDecimal("total");
+                return total != null ? total.doubleValue() : 0.0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
     }
 
     public void deletar(int id) throws SQLException {

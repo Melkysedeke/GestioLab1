@@ -14,7 +14,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestio</title>
-    <link rel="shortcut icon" href="../assets/img/bGestio.png" type="image/png">
+    <link rel="shortcut icon" href="assets/img/bGestio.png" type="image/png">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -220,12 +220,18 @@
       /* Sem carteira */
 
       .painel {
-        margin: 20px 32px 0;
+        margin: 20px auto 0;
         padding: 30px 50px;
         text-align: center;
         max-width: 1216px;
         background-color: var(--cor001);
       }
+      
+      @media screen and (max-width: 1280px) {
+		  .painel {
+		    margin: 20px 32px;
+		  }
+		}
 
       .painel p {
         max-width: 880px;
@@ -349,12 +355,77 @@
           transform: translateY(-10px);
         }
       }
+      
+      .dashboard {
+		  display: flex;
+		  flex-direction: column;
+		  gap: 20px;
+		  margin: 30px;
+		  font-family: Arial, sans-serif;
+		  width: 100%;
+		}
+		
+		.linha {
+		  display: flex;
+		  gap: 20px;
+		  flex-wrap: wrap;
+		  justify-content: center;
+		}
+		
+		.card {
+		  background-color: white;
+		  padding: 20px;
+		  flex: 1;
+		  min-width: 200px;
+		  border: 1px solid var(--cor001);
+		  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+		}
+		
+		.card h2, .card h3 {
+		  margin-top: 0;
+		  color: #333;
+		}
+		
+		.card p, .card span {
+		  font-size: 1.2em;
+		  font-weight: bold;
+		  color: #444;
+		}
+		
+		.card.entrada h3{
+			color: green;
+		}
+		
+		.card.saida h3{
+			color: var(--cor002);
+		}
+		
+		.card.objetivo {
+		  width: 100%;
+		  max-width: none;
+		  text-align: center;
+		  background: white;
+		}
+		
+		.card.objetivo progress {
+		  width: 80%;
+		  height: 20px;
+		  margin: 10px 0 0;
+		  border-radius: 10px;
+		}
+		
+		@media (max-width: 768px) {
+		  .linha {
+		    flex-direction: column;
+		    align-items: center;
+		  }
+		}     
     </style>
   </head>
   <body>
     <header class="header">
       <div>
-        <img id="logo" src="../assets/img/bGestio.png" alt="Logo" />
+        <img id="logo" src="assets/img/bGestio.png" alt="Logo" />
         <h1>Gestio</h1>
       </div>
       <nav>
@@ -373,10 +444,9 @@
         <img src="" id="imgPerfil" alt="Logo" />
       </nav>
       <div id="menu">
-        <form action="perfil.jsp"><button>Meu Perfil</button></form>
-        <form action=""><button>Configurações</button></form>
-        <form action=""><button>Tema Claro/Escuro</button></form>
-        <form action=""><button>Ia Assistente</button></form>
+        <form action="pages/perfil.jsp"><button>Meu Perfil</button></form>
+        <form action="perfil.jsp"><button>Configurações</button></form>
+        <form action="pages/assistente.jsp"><button>Ia Assistente</button></form>
         <form action="<%= request.getContextPath() %>/LogoutController">
           <button>Sair</button>
         </form>
@@ -399,7 +469,7 @@
             <label for="<%= inputId %>"><span><%= c.getNome() %></span></label>
             <a
               class="opcoes"
-              href="editarCarteira.jsp?id=<%= c.getIdCarteira() %>"
+              href="pages/editarCarteira.jsp?id=<%= c.getIdCarteira() %>"
               onclick="event.stopPropagation();"
               >⋮</a
             >
@@ -439,7 +509,7 @@
           <input class="aba" type="radio" name="aba" id="ia" />
           <label for="ia">Assistente IA</label>
         </aside>
-
+		<!-- 
         <div class="em-construcao-container">
           <div class="em-construcao-box">
             <div class="emoji">🚧</div>
@@ -451,7 +521,45 @@
             <div class="loader"></div>
           </div>
         </div>
+		-->
+      <div class="dashboard">
+		  <div class="linha linha-1">
+		    <div class="card saldo">
+		      <h2>Saldo Atual</h2>
+		      <p>R$ ${saldo}</p>
+		    </div>
+		    <div class="card entrada">
+		      <h3>Entradas</h3>
+		      <p>R$ ${entradas}</p>
+		    </div>
+		    <div class="card saida">
+		      <h3>Saídas</h3>
+		      <p>R$ ${saidas}</p>
+		    </div>
+		  </div>
+		
+		  <div class="linha linha-2">
+		    <div class="card divida">
+		      <h3>Dívidas Ativas</h3>
+		      <p>R$ ${totalDividas}</p>
+		    </div>
+		    <div class="card investimento">
+		      <h3>Investimentos</h3>
+		      <p>R$ ${totalInvestido}</p>
+		    </div>
+		  </div>
+		
+		  <div class="linha linha-3">
+		    <div class="card objetivo">
+		      <h3>Progresso dos Objetivos</h3>
+		      <progress value="${progressoObjetivo}" max="100"></progress>
+		      <span>${progressoObjetivo}%</span>
+		    </div>
+		  </div>
+		</div>
+
       </div>
+      
       <% } else { %>
       <section class="painel">
         <p>
@@ -459,7 +567,7 @@
           tenha controle total sobre suas receitas, despesas, investimentos e
           metas financeiras.
         </p>
-        <form action="criarCarteira.jsp">
+        <form action="pages/criarCarteira.jsp">
           <button>Criar uma carteira</button>
         </form>
       </section>
@@ -515,7 +623,7 @@
       });
 
       function abrirModalCriarCarteira() {
-        window.location.href = "criarCarteira.jsp";
+        window.location.href = "pages/criarCarteira.jsp";
       }
 
       // alterna página
@@ -559,7 +667,7 @@
                     window.location.href = "<%= request.getContextPath() %>/ObjetivoController?acao=prepararPagina";
                     break;
                 case "ia":
-                  window.location.href = "assistente.jsp";
+                  window.location.href = "pages/assistente.jsp";
                   break;
                 default:
                   console.warn("Aba não mapeada: " + this.id);

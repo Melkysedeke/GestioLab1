@@ -223,12 +223,18 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
       /* Sem carteira */
 
       .painel {
-        margin: 20px 32px 0;
+        margin: 20px auto 0;
         padding: 30px 50px;
         text-align: center;
         max-width: 1216px;
         background-color: var(--cor001);
       }
+      
+      @media screen and (max-width: 1280px) {
+		  .painel {
+		    margin: 20px 32px;
+		  }
+		}
 
       .painel p {
         max-width: 880px;
@@ -339,29 +345,6 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
         background-color: #94a8ce;
       }
 
-      .search-box {
-        position: relative;
-        z-index: 0;
-      }
-
-      .search-box input {
-        padding: 6px 32px 6px 8px;
-        border: 1px solid #858585;
-        border-radius: 2px;
-        font-size: 13px;
-        color: #000;
-      }
-
-      .icone-lupa {
-        position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #757575;
-        font-size: 14px;
-        pointer-events: none;
-      }
-
       .conteudo > p {
         font-size: 30px;
         color: #000000;
@@ -470,7 +453,8 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
 		}
 		
 		form .botao-excluir:hover {
-			background-color: lightgray;
+			background-color: #858585;
+			color: white;
 		}
       
       /* Modal Overlay */
@@ -597,7 +581,8 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
 		}
 
     .cancelar:hover {
-      background-color: lightgray;
+      background-color: #858585;
+		color: white;
     }
     </style>
   </head>
@@ -624,9 +609,8 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
       </nav>
       <div id="menu">
         <form action="pages/perfil.jsp"><button>Meu Perfil</button></form>
-        <form action=""><button>Configurações</button></form>
-        <form action=""><button>Tema Claro/Escuro</button></form>
-        <form action=""><button>Ia Assistente</button></form>
+        <form action="pages/perfil.jsp"><button>Configurações</button></form>
+        <form action="pages/assistente.jsp"><button>Ia Assistente</button></form>
         <form action="<%= request.getContextPath() %>/LogoutController">
           <button>Sair</button>
         </form>
@@ -694,10 +678,6 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
 		    <div class="header-topo">
 		      <h2>Meus objetivos</h2>
 		      <button class="btn-nova" onclick="abrirModalObjetivo()">Novo objetivo</button>
-		    </div>
-		    <div class="search-box">
-		      <input type="text" placeholder="Pesquisar" />
-		      <span class="icone-lupa">🔍</span>
 		    </div>
 		  </div>
 		
@@ -982,7 +962,7 @@ List<Objetivo> objetivos = (List<Objetivo>) session.getAttribute("objetivosSessa
             if (this.checked) {
               switch (this.id) {
                 case "resumo":
-                  window.location.href = "pages/resumo.jsp";
+                  window.location.href = "<%= request.getContextPath() %>/ResumoController";
                   break;
                 case "movimentacoes":
                   window.location.href = "<%= request.getContextPath() %>/MovimentacaoController?acao=prepararPagina";
